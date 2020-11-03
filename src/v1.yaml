@@ -1,0 +1,170 @@
+openapi: 3.0.1
+
+info:
+  title: Friends
+  version: "1.0"
+
+servers:
+- url: /v1
+
+paths:
+
+  /healthcheck:
+
+    get:
+      tags:
+      - Maintenance
+      summary: Return success if service is alive.
+      operationId: controllers.v1.healthcheck.healthcheck
+      responses:
+        200:
+          $ref: '#/components/responses/response_success'
+
+  /friends/{user_id}:
+
+    get:
+      tags:
+      - Friends
+      summary: Return friend list.
+      operationId: controllers.v1.friends.get
+      parameters:
+      - $ref: '#/components/parameters/parameter_user_id'
+      responses:
+        200:
+          $ref: '#/components/responses/response_success'
+        400:
+          $ref: '#/components/responses/response_bad_request'
+
+  /friends/{user_id}/{friend_id}:
+
+    delete:
+      tags:
+      - Friends
+      summary: Remove friend relationship.
+      operationId: controllers.v1.friends.remove
+      parameters:
+      - $ref: '#/components/parameters/parameter_user_id'
+      - $ref: '#/components/parameters/parameter_friend_id'
+      responses:
+        200:
+          $ref: '#/components/responses/response_success'
+        400:
+          $ref: '#/components/responses/response_bad_request'
+
+    post:
+      tags:
+      - Friends
+      summary: Create friend relationship.
+      operationId: controllers.v1.friends.create
+      parameters:
+      - $ref: '#/components/parameters/parameter_user_id'
+      - $ref: '#/components/parameters/parameter_friend_id'
+      responses:
+        200:
+          $ref: '#/components/responses/response_success'
+        400:
+          $ref: '#/components/responses/response_bad_request'
+        409:
+          $ref: '#/components/responses/response_conflict'
+
+
+components:
+
+  schemas:
+
+    response_meta_bad_request:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad Request.
+
+    response_meta_conflict:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 409
+        message:
+          type: string
+          example: Conflict.
+
+    response_meta_success:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Success
+
+  responses:
+
+    response_bad_request:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            required:
+              - meta
+            type: object
+            properties:
+              meta:
+                $ref: '#/components/schemas/response_meta_bad_request'
+
+    response_conflict:
+      description: Conflict.
+      content:
+        application/json:
+          schema:
+            required:
+              - meta
+            type: object
+            properties:
+              meta:
+                $ref: '#/components/schemas/response_meta_conflict'
+
+    response_success:
+      description: Success.
+      content:
+        application/json:
+          schema:
+            required:
+              - meta
+            type: object
+            properties:
+              meta:
+                $ref: '#/components/schemas/response_meta_success'
+
+  parameters:
+
+    parameter_friend_id:
+      name: friend_id
+      in: path
+      description: Friend ID.
+      required: true
+      schema:
+        type: integer
+      example: 10
+
+    parameter_user_id:
+      name: user_id
+      in: path
+      description: User ID.
+      required: true
+      schema:
+        type: integer
+      example: 20
