@@ -16,6 +16,10 @@ Use `psql` to create database and user. Read `.env` file to get user and passwor
 ./db_upgrade.sh
 ```
 
+## API documentation
+
+Documentation is available in `src/v1.yaml` file.
+
 ## How to run
 
 Run:
