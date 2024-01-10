@@ -14,6 +14,6 @@ COPY . .
 
 EXPOSE 5000
 
-ENTRYPOINT ["gunicorn"]
+ENTRYPOINT ["uvicorn"]
 
-CMD ["--bind", "0.0.0.0:5000", "--workers", "1", "app:app"]
+CMD ["--host", "0.0.0.0", "--port", "5000", "app:app"]

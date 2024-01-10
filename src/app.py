@@ -1,15 +1,23 @@
-from connexion import FlaskApp
+import connexion
+import os
 
-app = FlaskApp(__name__)
+from flask_migrate import Migrate
+
+from models import db
+
+app = connexion.FlaskApp(__name__)
 app.add_api('v1.yaml')
 
-flask_app = connexion_app.app
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-app.config['SQLALCHEMY_ECHO'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{}:{}@{}/{}'.format(
-    os.environ.get('POSTGRES_USER'), os.environ.get('POSTGRES_PASSWORD'),
-    os.environ.get('POSTGRES_HOST'), os.environ.get('POSTGRES_DATABASE_NAME')
+flask_app = app.app
+flask_app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+flask_app.config['SQLALCHEMY_ECHO'] = True
+flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{}:{}@{}/{}'.format(
+    os.environ.get('POSTGRES_USER'),
+    os.environ.get('POSTGRES_PASSWORD'),
+    os.environ.get('POSTGRES_HOST'),
+    os.environ.get('POSTGRES_DATABASE_NAME')
 )
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-db.init_app(app)
+db.init_app(flask_app)
+migrate = Migrate(flask_app, db)
