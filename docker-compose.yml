@@ -24,6 +24,8 @@ services:
     networks:
       main:
         ipv4_address: ${FRIENDS_HOST}
+    ports:
+      - ${FRIENDS_PORT}:${FRIENDS_PORT}
     restart: unless-stopped
 
   postgres:

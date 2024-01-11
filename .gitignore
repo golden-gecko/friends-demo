@@ -1,5 +1,5 @@
 .idea
+__pycache__
 report.html
 report.xml
-__pycache__
 venv
