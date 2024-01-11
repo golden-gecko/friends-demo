@@ -6,9 +6,16 @@ REST demo.
 
 Install `Docker`, `Docker Compose` and `PostgreSQL` client.
 
-## How to create database for first time
+## Create database for first time
 
 Use `psql` to create database and user. Read `.env` file to get user and password.
+
+```sql
+CREATE DATABASE friends;
+CREATE USER friends WITH ENCRYPTED PASSWORD 'friends';
+ALTER DATABASE friends OWNER TO friends;
+GRANT ALL ON DATABASE friends TO friends;
+```
 
 ```bash
 ./db_init.sh
@@ -20,7 +27,7 @@ Use `psql` to create database and user. Read `.env` file to get user and passwor
 
 Documentation is available in `src/v1.yaml` file.
 
-## How to run
+## Run
 
 Run:
 
@@ -28,7 +35,7 @@ Run:
 ./run.sh
 ```
 
-## How to test
+## Test
 
 Install:
 
@@ -39,8 +46,3 @@ sudo apt install python3-venv
 ```bash
 ./test.sh
 ```
-
-## Possible improvements
-
-* Use Redis as a cache for retrieving friend lists.
-* Use MongoDB or other No-SQL database.

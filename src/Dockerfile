@@ -1,6 +1,6 @@
-FROM python:3.8.5
+FROM python:3.12.1-bookworm
 
-WORKDIR /usr/local/app
+WORKDIR /app
 
 COPY requirements.txt .
 
@@ -14,6 +14,4 @@ COPY . .
 
 EXPOSE 5000
 
-ENTRYPOINT ["gunicorn"]
-
-CMD ["--bind", "0.0.0.0:5000", "--workers", "1", "app:app"]
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "5000", "app:app"]

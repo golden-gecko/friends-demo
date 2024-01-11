@@ -32,6 +32,10 @@ def bad_request(message: str = 'Bad Request', data: [dict, list] = None) -> tupl
     return response(code=HTTPStatus.BAD_REQUEST, message=message, data=data)
 
 
+def not_found(message: str = 'Not Found', data: [dict, list] = None) -> tuple:
+    return response(code=HTTPStatus.NOT_FOUND, message=message, data=data)
+
+
 def conflict(message: str = 'Conflict', data: [dict, list] = None) -> tuple:
     return response(code=HTTPStatus.CONFLICT, message=message, data=data)
 
