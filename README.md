@@ -18,11 +18,19 @@ Use `psql` to create database and user. Read `.env` file to get user and passwor
 
 ## How to run
 
+Run:
+
 ```bash
 ./run.sh
 ```
 
 ## How to test
+
+Install:
+
+```bash
+sudo apt install python3-venv
+```
 
 ```bash
 ./test.sh
@@ -31,3 +39,4 @@ Use `psql` to create database and user. Read `.env` file to get user and passwor
 ## Possible improvements
 
 * Use Redis as a cache for retrieving friend lists.
+* Use MongoDB or other No-SQL database.

@@ -5,7 +5,16 @@ cd "$(dirname "$0")"
 source .env
 export $(cut -d= -f1 .env)
 
-PYTHONDONTWRITEBYTECODE=1 python3 -m pytest \
+python3 -m venv test/venv
+
+test/venv/bin/pip3 install \
+    --disable-pip-version-check \
+    --isolated \
+    --no-cache-dir \
+    --requirement src/requirements.txt \
+    --requirement test/requirements.txt
+
+PYTHONDONTWRITEBYTECODE=1 test/venv/bin/python3 -m pytest \
     --durations=0 \
     --junitxml=report.xml \
     --html=report.html \
