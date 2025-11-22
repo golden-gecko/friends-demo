@@ -1,0 +1,48 @@
+version: '3.2'
+
+networks:
+
+  main:
+    ipam:
+      config:
+        - subnet: 192.168.80.0/24
+
+services:
+
+  friends:
+    build:
+      context: src
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://${FRIENDS_HOST}:${FRIENDS_PORT}/v1/healthcheck']
+      interval: 10s
+      timeout: 2s
+      retries: 2
+    networks:
+      main:
+        ipv4_address: ${FRIENDS_HOST}
+    restart: unless-stopped
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "psql", "-d", "${POSTGRES_DATABASE_NAME}", "-U", "${POSTGRES_USER}", "-c", "select 1"]
+      interval: 10s
+      timeout: 2s
+      retries: 2
+    image: postgres:11.7
+    networks:
+      main:
+        ipv4_address: ${POSTGRES_HOST}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
